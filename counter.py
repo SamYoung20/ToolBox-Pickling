@@ -44,7 +44,7 @@ def update_counter(file_name, reset=False):
             return counter
     else:
         """in all other cases (file doesnt already exist or file does exist and
-        you need to reset) this just overrights anything and sets the contents to 0
+        you need to reset) this just overrights anything and sets the contents to 1
         """
         fi1 = open(file_name, 'wb')
         pickle.dump(1, fi1) # adding a 1
