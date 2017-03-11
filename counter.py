@@ -2,7 +2,7 @@
 
 from os.path import exists
 import sys
-from pickle import dump, load
+import pickle
 
 
 def update_counter(file_name, reset=False):
@@ -30,7 +30,27 @@ def update_counter(file_name, reset=False):
     >>> update_counter('blah2.txt')
     2
     """
-    pass
+
+    if exists(file_name) and not reset:
+            # this the case that the file already exists and you have to increment the contents.
+            counter = 0
+            fi1 = open(file_name, 'rb+')
+            fi1.seek(0, 0)
+            contents = pickle.load(fi1)
+            fi1.seek(0, 0)
+            counter = contents + 1  # incrementing contents
+            pickle.dump(counter, fi1)  # putting contents back in
+            fi1.close()
+            return counter
+    else:
+        """in all other cases (file doesnt already exist or file does exist and
+        you need to reset) this just overrights anything and sets the contents to 0
+        """
+        fi1 = open(file_name, 'wb')
+        pickle.dump(1, fi1) # adding a 1
+        fi1.close()
+        return 1
+
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
